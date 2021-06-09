@@ -37,6 +37,17 @@ function [ FmBC ] = BlankCorrect14C( Fmdat,m,d,sigm,sigd )
 %   -fixed bug with error propagation calculation
 %   -allowed for variable blank corrections entered as matrices
 
+
+
+%-------------------This version is edited by TMK May 2020-----------------
+%If using time-dependent modern blank, Fmdat must include a fourth column
+%for the minutes of collection for the split and uncomment time-dependent 
+%parameters within (TMK).
+
+%The Fm value for modern blank has also been adjusted to 1.0398 assuming 
+%that the modern blank is equal to that of OX-1 (it was assumed 1
+%previously).
+
 %% Defaults
 if nargin==4
     sigd=0.5*d;
@@ -58,6 +69,10 @@ if nargin==1
 end
 
 %% Calculation of blank-corrected Fm and associated uncertainty
+Fmdat=load(Fmdat);
+
+%Added lines 74-75 include a sigma term for unknown sample mass (TMK):
+sigmu=sqrt(sigm^2+sigd^2);
 
 mass=Fmdat(:,3).*12;
 if length(m)~=length(d) || length(m)~=length(sigm) || length(m)~=length(sigd) || length(d)~=length(sigm) || length(d)~=length(sigd) ||length(sigm)~=length(sigd)
@@ -69,13 +84,40 @@ if length(m)==1
     d=ones(length(Fmdat(:,1)),1)*d;
     sigm=ones(length(Fmdat(:,1)),1)*sigm;
     sigd=ones(length(Fmdat(:,1)),1)*sigd;
+    %Added line 88 for sigma of unknown sample mass (TMK):
+    sigmu=ones(length(Fmdat(:,1)),1)*sigmu;
 end
+
+%Mass of the unknown sample (total blank mass removed):
+massu=mass-m-d;
+
+%Blank correction calculations below include the mass of the unknown sample
+%(massu). Original code from BER commented out (TMK):
+
 
 FmBC=zeros(length(Fmdat(:,1)),2);
 for j=1:length(Fmdat(:,1))
-    FmBC(j,1)=(Fmdat(j,1)-m(j)/mass(j)+Fmdat(j,1)*d(j)/mass(j)+Fmdat(j,1)*m(j)/mass(j));
-    FmBC(j,2)=sqrt(Fmdat(j,2)^2*((d(j)+m(j)+mass(j))/mass(j))^2+sigd(j)^2*((Fmdat(j,1))/...
+   
+    %ORIGINAL:
+    %FmBC(j,1)=(Fmdat(j,1)-m(j)/mass(j)+Fmdat(j,1)*d(j)/mass(j)+Fmdat(j,1)*m(j)/mass(j));
+
+    FmBC(j,1)=(Fmdat(j,1) -...
+                (1.0398*m(j)/massu(j)) +...
+                (Fmdat(j,1)*d(j)/massu(j)) +...
+                (Fmdat(j,1)*m(j)/massu(j))  );
+
+    %ORIGINAL:
+    %FmBC(j,2)=sqrt(Fmdat(j,2)^2*((d(j)+m(j)+mass(j))/mass(j))^2+sigd(j)^2*((Fmdat(j,1))/...
         mass(j))^2+sigm(j)^2*((Fmdat(j,1)-1)/mass(j))^2);
+
+    FmBC(j,2)=sqrt(...
+                ((Fmdat(j,2)^2) * ((d(j)+m(j)+massu(j)) / massu(j))^2) + ...
+                (sigd(j)^2)  * ((Fmdat(j,1) / massu(j))^2) + ...
+                (sigm(j)^2)  * (((Fmdat(j,1)-1.0398) / massu(j))^2) + ...
+                (sigmu(j)^2) * (((1.0398*m(j) / (massu(j)^2)) -...
+                                ((Fmdat(j,1)*d(j)) / (massu(j)^2)) -...
+                                ((Fmdat(j,1)*m(j)) / (massu(j)^2)))^2) );
+
 end
 
 
