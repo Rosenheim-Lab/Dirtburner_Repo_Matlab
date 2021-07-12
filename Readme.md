@@ -18,5 +18,3 @@ The files and their dependencies can be summarized as follows:
 * PlotThermo, PlotThermo_D14C, and PlotThermo_Fm all plot the thermographs with uneven bar circles to depict the decomposition reaction in light of isotope values. A plot is generated for visualizaton. The function calles two files - data (use _alt suffixed data for a better plot) and results (containing fractions modern, uncertainty, and stable isotope values as well as the temperature intervals of sampling). These functions differ only in how they visualize with uneven bars (positive and negative). Dependencies are with fracmat.m and unevenbarcircles.m. 
 
 All files have help/doc text appended on to the front end of each m-file. Please use this text in each file to sort out what the input functions must be (all are .txt).
-
-Devon testing
