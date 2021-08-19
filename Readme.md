@@ -16,5 +16,11 @@ The files and their dependencies can be summarized as follows:
 * Correct RPO data for blank contamination
    - BlankCorrect14C and BlankCorrect14_comps both calculate new fractions modern and uncertainties for input data. The functions call for a matrix of data (manually input) as well as live blank mass and uncertainty and dead blank mass and uncertainty. The output is a matrix with new fractions modern and uncertainties. 
 * PlotThermo, PlotThermo_D14C, and PlotThermo_Fm all plot the thermographs with uneven bar circles to depict the decomposition reaction in light of isotope values. A plot is generated for visualizaton. The function calles two files - data (use _alt suffixed data for a better plot) and results (containing fractions modern, uncertainty, and stable isotope values as well as the temperature intervals of sampling). These functions differ only in how they visualize with uneven bars (positive and negative). Dependencies are with fracmat.m and unevenbarcircles.m. 
+* Lierhaugen0-30 is a script that performs Gaussian decomposition of the reaction for sample Lierhaugen0_30_AT.txt and isotope results Lierhaugen0_30_DeminResults. The dependencies of this script (dfdp.m and nlleasqu.m) are also in the repository so the script should operate. To apply this script to a different set of run data and isotope results, one would have to:
+  1. change the file names for the run data and the isotope results,
+  2. determine number of Gaussians to model,
+  3. change the the initial guess (pin) Gaussian values, and 
+  4. test the results until the script produces a stable convergence
+This script can be used on dummy isotope values if none are available (shape runs or fast ramps), or you can excerpt the part of the script that does the Gaussian decomposition without running the isotope quantifications of Gaussian curves. 
 
 All files have help/doc text appended on to the front end of each m-file. Please use this text in each file to sort out what the input functions must be (all are .txt).
