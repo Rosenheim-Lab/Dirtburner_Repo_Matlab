@@ -20,7 +20,13 @@ The files and their dependencies can be summarized as follows:
   1. change the file names for the run data and the isotope results,
   2. determine number of Gaussians to model,
   3. change the the initial guess (pin) Gaussian values, and 
-  4. test the results until the script produces a stable convergence
+     * Each Gaussian contains three variables - height, center, width
+     * Thus you need n*3 variables 
+     * Width is tricky because it represents one standard deviation, or 67% of the area under the Gaussian. This will plot wider than you intended, so pick about 50% of the width you    suspect.
+     * If you enter a number of pin values that is not a multiple of 3, you will get an error.
+  4. change the function form to match your number of Gaussians - IMPORTANT!
+  5. test the results until the script produces a stable convergence
+Generally, this routine is very forgiving of "bad" initial guesses. It will converge with a good model. If it takes more than about 10 iterations, you should evaluate whether you are using the correct number Gaussians - your eye is really good at picking them out, don't overthink it!
 This script can be used on dummy isotope values if none are available (shape runs or fast ramps), or you can excerpt the part of the script that does the Gaussian decomposition without running the isotope quantifications of Gaussian curves. 
 
 All files have help/doc text appended on to the front end of each m-file. Please use this text in each file to sort out what the input functions must be (all are .txt).
