@@ -22,13 +22,13 @@
 
 
 %load the data files for data and for results.
-load Leirhaugen30_60.txt;
-D=sortrows(Leirhaugen30_60,1);
+load Leirhaugen0_30_AT.txt;
+D=sortrows(Leirhaugen0_30_AT,1);
 T=D(:,1);
 y=D(:,2);
 
-load Leirhaugen0_30_Results.txt;
-R=Leirhaugen0_30_Results;  %These are currently dummy results (26Apr2011)
+load Leirhaugen0_30_DeminResults.txt;
+R=Leirhaugen0_30_DeminResults;  %These are currently dummy results (26Apr2011)
 
 
 %Create data array with pin matrices containing initial guess information
