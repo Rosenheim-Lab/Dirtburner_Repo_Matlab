@@ -37,7 +37,7 @@ D=sortrows(load(run_file_path),1);
 T=D(:,1);
 y=D(:,2);
 
-pin = number_of_Gaussians
+pin = p_initial;
 
 %Model initial guess:
 for x=1:length(pin)/3
@@ -88,4 +88,6 @@ xlabel('Temperature (^{o}C)','FontSize',14)
 ylabel('pCO_{2} (\mumol/mol)','FontSize',14)
 
 
-
+%Output variables
+model_out = Models;
+p_out = p;

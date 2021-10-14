@@ -29,4 +29,7 @@ The files and their dependencies can be summarized as follows:
 Generally, this routine is very forgiving of "bad" initial guesses. It will converge with a good model. If it takes more than about 10 iterations, you should evaluate whether you are using the correct number Gaussians - your eye is really good at picking them out, don't overthink it!
 This script can be used on dummy isotope values if none are available (shape runs or fast ramps), or you can excerpt the part of the script that does the Gaussian decomposition without running the isotope quantifications of Gaussian curves. 
 
+* Plot Gaussian fit to run data
+- fit_Gauss is a new function where the user inputs the data file (file path), the number of Gaussians desired, and the initial guess (vector of length 3x the number of Gaussians, each set of 3 is the height, center, and sigma width of the Gaussian). The function produces output variables and figures.
+
 All files have help/doc text appended on to the front end of each m-file. Please use this text in each file to sort out what the input functions must be (all are .txt).
